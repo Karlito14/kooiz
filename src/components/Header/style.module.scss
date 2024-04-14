@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+    &__image {
+        height: 20vh;
+    }
+}
