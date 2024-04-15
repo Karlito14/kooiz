@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import style from './style.module.scss';
+import { IoArrowForward } from 'react-icons/io5';
 
 interface Props {
     max: number;
     min: number;
     step: number;
+    onClick: (amount: number) => void;
 }
 
 export const StepQuestionQty = (props: Props) => {
@@ -19,22 +21,29 @@ export const StepQuestionQty = (props: Props) => {
     };
 
     return(
-        <div className={style.container}>
-            <label className={style.container__label} htmlFor="questionQty">How many questions ?</label>
-            <input 
-                className={style.container__input} 
-                value={quantity} 
-                list='tickmarks' 
-                name='questionQty' 
-                id='questionQty' 
-                type='range' 
-                step={props.step} 
-                min={props.min} 
-                max={props.max} 
-            />
-            <datalist className={style.container__datalist} id="tickmarks">
-                {renderMarks()}
-            </datalist>
-        </div>
+        <>
+            <div className={style.container}>
+                <label className={style.container__label} htmlFor="questionQty">How many questions ?</label>
+                <input 
+                    onChange={(e) => setQuantity(+e.target.value) }
+                    defaultValue={props.min}
+                    className={style.container__input} 
+                    list='tickmarks' 
+                    name='questionQty' 
+                    id='questionQty' 
+                    type='range' 
+                    step={props.step} 
+                    min={props.min} 
+                    max={props.max} 
+                />
+                <datalist className={style.container__datalist} id="tickmarks">
+                    {renderMarks()}
+                </datalist>
+            </div>
+
+            <div className={style.divButton}>
+                <button className={style.divButton__button} onClick={() => {props.onClick(quantity);}}>Set category<IoArrowForward /></button>
+            </div>
+        </>
     );
 };
