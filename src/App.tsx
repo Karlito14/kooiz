@@ -1,9 +1,10 @@
 import { Header } from './components/Header/Header.tsx';
 import '../global.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StepQuestionQty } from './components/StepQuestionQty/StepQuestionQty.tsx';
-import { StepQuestionCategory } from './components/StepQuestionCategory/StepQuestionCategory.tsx';
+import { QuizzCategory, StepQuestionCategory } from './components/StepQuestionCategory/StepQuestionCategory.tsx';
 import { StepQuestionDifficulty } from './components/StepQuestionDifficulty/StepQuestionDifficulty.tsx';
+import { QuizzApi } from '../api/quizz-api.ts';
 
 enum QuizzDifficulty {
     Easy = 'easy',
@@ -35,12 +36,21 @@ interface FetchQuizzParams {
 
 export const App = () => {
     const [step, setStep] = useState<Step>(Step.StepQuestionQty);
+    const [categories, setCategories] = useState<QuizzCategory[]>([]);
     const [quizzParams, setQuizzParams] = useState<FetchQuizzParams>({
         amount: 5,
         category: '',
         difficulty: QuizzDifficulty.Mixed,
         type: TypeQuizz.Mixed,
     });
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const data = await QuizzApi.fetchCategories();
+            setCategories(data);
+        };
+        fetchCategories();
+    }, []);
 
     const renderStep = () => {
         switch(step) {
@@ -50,7 +60,7 @@ export const App = () => {
                     setStep(Step.StepQuestionCategory);
                 }} max={30} min={5} step={5} />;
             case Step.StepQuestionCategory :
-                return <StepQuestionCategory />;
+                return <StepQuestionCategory categories={categories} />;
             case Step.StepQuestionDifficulty :
                 return <StepQuestionDifficulty />;
             case Step.Play :
@@ -63,9 +73,7 @@ export const App = () => {
     return (
         <>
             <Header></Header>
-            <main>
-                {renderStep()}
-            </main>
+            {renderStep()}
         </>
     );
 };

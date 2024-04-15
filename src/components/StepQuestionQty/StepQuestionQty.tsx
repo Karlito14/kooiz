@@ -22,7 +22,7 @@ export const StepQuestionQty = (props: Props) => {
 
     return(
         <>
-            <div className={style.container}>
+            <main className={style.container}>
                 <label className={style.container__label} htmlFor="questionQty">How many questions ?</label>
                 <input 
                     onChange={(e) => setQuantity(+e.target.value) }
@@ -39,11 +39,11 @@ export const StepQuestionQty = (props: Props) => {
                 <datalist className={style.container__datalist} id="tickmarks">
                     {renderMarks()}
                 </datalist>
-            </div>
+            </main>
 
-            <div className={style.divButton}>
+            <footer className={style.divButton}>
                 <button className={style.divButton__button} onClick={() => {props.onClick(quantity);}}>Set category<IoArrowForward /></button>
-            </div>
+            </footer>
         </>
     );
 };
