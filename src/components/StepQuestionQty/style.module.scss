@@ -21,7 +21,15 @@ $largeurInput : 300px;
         width: $largeurInput;
 
         & option {
-            padding: 0 4px;
+            padding-left: 15px;
+        }
+
+        & option:nth-child(2), option:nth-child(3) {
+            padding-left: 18px;
+        }
+
+        & option:nth-child(1) {
+            padding-left: 3px;
         }
     }
 }
