@@ -16,7 +16,7 @@ export const ScreenStep = () => {
 
     switch(step) {
         case Step.StepQuestionQty :
-            return <StepQuestionQty />;
+            return <StepQuestionQty max={30} min={5} step={5}/>;
         case Step.StepQuestionCategory :
             return <StepQuestionCategory />;
         case Step.StepQuestionDifficulty :

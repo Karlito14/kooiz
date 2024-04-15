@@ -1,0 +1,27 @@
+$largeurInput : 300px;
+
+.container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__label {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    &__input {
+        width: $largeurInput;
+    }
+
+    &__datalist {
+        display: flex;
+        justify-content: space-between;
+        width: $largeurInput;
+
+        & option {
+            padding: 0 4px;
+        }
+    }
+}
