@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import style from './style.module.scss';
 import { IoArrowForward } from 'react-icons/io5';
-
-export interface QuizzCategory {
-    id: number;
-    name: string;
-}
+import { QuizzCategory } from '../../../config/types';
 
 export const StepQuestionCategory = (props : {categories: QuizzCategory[], onClick: (category: string) => void}) => {
     const [categorySelectedID, setCategorySelectedID] = useState<string>(props.categories[0]?.id.toString());

@@ -2,37 +2,11 @@ import { Header } from './components/Header/Header.tsx';
 import '../global.scss';
 import { useEffect, useState } from 'react';
 import { StepQuestionQty } from './components/StepQuestionQty/StepQuestionQty.tsx';
-import { QuizzCategory, StepQuestionCategory } from './components/StepQuestionCategory/StepQuestionCategory.tsx';
+import { StepQuestionCategory } from './components/StepQuestionCategory/StepQuestionCategory.tsx';
 import { StepQuestionDifficulty } from './components/StepQuestionDifficulty/StepQuestionDifficulty.tsx';
 import { QuizzApi } from '../api/quizz-api.ts';
-
-enum QuizzDifficulty {
-    Easy = 'easy',
-    Medium = 'medium',
-    Hard = 'hard',
-    Mixed = '',
-}
-
-enum TypeQuizz {
-    Mixed = '',
-    Multiple = 'multiple',
-    Boolean = 'boolean'
-}
-
-enum Step {
-    StepQuestionQty,
-    StepQuestionCategory,
-    StepQuestionDifficulty,
-    Play,
-    Score,
-}
-
-interface FetchQuizzParams {
-    amount: number;
-    category: string;
-    difficulty: QuizzDifficulty;
-    type : TypeQuizz;
-}
+import { QuizzDifficulty, TypeQuizz, Step, FetchQuizzParams, QuizzCategory } from '../config/types.tsx';
+import { Play } from './components/Play/Play.tsx';
 
 export const App = () => {
     const [step, setStep] = useState<Step>(Step.StepQuestionQty);
@@ -52,6 +26,8 @@ export const App = () => {
         fetchCategories();
     }, []);
 
+    console.log(quizzParams);
+
     const renderStep = () => {
         switch(step) {
             case Step.StepQuestionQty :
@@ -65,9 +41,12 @@ export const App = () => {
                     setStep(Step.StepQuestionDifficulty);
                 }} />;
             case Step.StepQuestionDifficulty :
-                return <StepQuestionDifficulty />;
+                return <StepQuestionDifficulty onClick={(difficulty: QuizzDifficulty) => {
+                    setQuizzParams({...quizzParams, difficulty});
+                    setStep(Step.Play);
+                }} />;
             case Step.Play :
-                return '';
+                return <Play />;
             case Step.Score :
                 return '';                      
         }
