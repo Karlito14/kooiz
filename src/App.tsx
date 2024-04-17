@@ -47,7 +47,7 @@ export const App = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             const data = await QuizzApi.fetchCategories();
-            setCategories(data);
+            setCategories([{id: -1, name: 'Multiple'},...data]);
         };
         fetchCategories();
     }, []);
@@ -60,7 +60,10 @@ export const App = () => {
                     setStep(Step.StepQuestionCategory);
                 }} max={30} min={5} step={5} />;
             case Step.StepQuestionCategory :
-                return <StepQuestionCategory categories={categories} />;
+                return <StepQuestionCategory categories={categories} onClick={(category: string) => {
+                    setQuizzParams({...quizzParams, category: category === '-1' ? '' : category});
+                    setStep(Step.StepQuestionDifficulty);
+                }} />;
             case Step.StepQuestionDifficulty :
                 return <StepQuestionDifficulty />;
             case Step.Play :

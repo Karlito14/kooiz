@@ -7,10 +7,8 @@ export interface QuizzCategory {
     name: string;
 }
 
-export const StepQuestionCategory = (props : {categories: QuizzCategory[]}) => {
+export const StepQuestionCategory = (props : {categories: QuizzCategory[], onClick: (category: string) => void}) => {
     const [categorySelectedID, setCategorySelectedID] = useState<string>(props.categories[0]?.id.toString());
-
-    console.log(categorySelectedID);
 
     return (
         <main className={style.container}>
@@ -28,7 +26,7 @@ export const StepQuestionCategory = (props : {categories: QuizzCategory[]}) => {
                 }
             </div>
             <div className={style.container__divButton}>
-                <button className={style.container__divButton__button} onClick={() => ''}>Set difficulty<IoArrowForward /></button>
+                <button className={style.container__divButton__button} onClick={() => props.onClick(categorySelectedID)}>Set difficulty<IoArrowForward /></button>
             </div>
         </main>
     );
