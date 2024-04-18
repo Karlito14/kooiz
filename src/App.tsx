@@ -5,12 +5,13 @@ import { StepQuestionQty } from './components/StepQuestionQty/StepQuestionQty.ts
 import { StepQuestionCategory } from './components/StepQuestionCategory/StepQuestionCategory.tsx';
 import { StepQuestionDifficulty } from './components/StepQuestionDifficulty/StepQuestionDifficulty.tsx';
 import { QuizzApi } from '../api/quizz-api.ts';
-import { QuizzDifficulty, TypeQuizz, Step, FetchQuizzParams, QuizzCategory } from '../config/types.tsx';
-import { Play } from './components/Play/Play.tsx';
+import { QuizzDifficulty, TypeQuizz, Step, FetchQuizzParams, QuizzCategory, quizzItem } from '../config/types.tsx';
+import { PlayQuizz } from './components/PlayQuizz/PlayQuizz.tsx';
 
 export const App = () => {
     const [step, setStep] = useState<Step>(Step.StepQuestionQty);
     const [categories, setCategories] = useState<QuizzCategory[]>([]);
+    const [quizz, setQuizz] = useState<quizzItem[]>([]);
     const [quizzParams, setQuizzParams] = useState<FetchQuizzParams>({
         amount: 5,
         category: '',
@@ -26,8 +27,6 @@ export const App = () => {
         fetchCategories();
     }, []);
 
-    console.log(quizzParams);
-
     const renderStep = () => {
         switch(step) {
             case Step.StepQuestionQty :
@@ -41,12 +40,20 @@ export const App = () => {
                     setStep(Step.StepQuestionDifficulty);
                 }} />;
             case Step.StepQuestionDifficulty :
-                return <StepQuestionDifficulty onClick={(difficulty: QuizzDifficulty) => {
-                    setQuizzParams({...quizzParams, difficulty});
-                    setStep(Step.Play);
+                return <StepQuestionDifficulty onClick={async (difficulty: QuizzDifficulty) => {
+                    const params = {...quizzParams, difficulty};
+                    setQuizzParams(params);
+                    const questions = await QuizzApi.fetchQuestions(params);
+                    if(questions.length > 0) {
+                        setQuizz(questions);
+                        setStep(Step.Play);
+                    } else {
+                        alert(`Couldn't find ${params.amount} questions for this category, restarting game`);
+                        setStep(Step.StepQuestionQty);
+                    }
                 }} />;
             case Step.Play :
-                return <Play />;
+                return <PlayQuizz quizz={quizz} />;
             case Step.Score :
                 return '';                      
         }

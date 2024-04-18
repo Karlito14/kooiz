@@ -5,7 +5,6 @@ import { QuizzCategory } from '../../../config/types';
 
 export const StepQuestionCategory = (props : {categories: QuizzCategory[], onClick: (category: string) => void}) => {
     const [categorySelectedID, setCategorySelectedID] = useState<string>(props.categories[0]?.id.toString());
-
     return (
         <main className={style.container}>
             <h2 className={style.container__title}>Which topic ?</h2>
