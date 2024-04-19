@@ -16,7 +16,7 @@ export const App = () => {
         amount: 5,
         category: '',
         difficulty: QuizzDifficulty.Mixed,
-        type: TypeQuizz.Mixed,
+        type: TypeQuizz.Multiple,
     });
 
     useEffect(() => {
