@@ -19,6 +19,12 @@ export enum Step {
     Score,
 }
 
+export enum QuestionStatus {
+    Valid = 'valid',
+    Invalid = 'invalid',
+    Unanswered = 'unanswered'
+}
+
 export interface FetchQuizzParams {
     amount: number;
     category: string;

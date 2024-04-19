@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { Step, quizzItem } from '../../../config/types';
+import { QuestionStatus, quizzItem } from '../../../config/types';
 import style from './style.module.scss';
+import Lottie from 'lottie-react';
+import validAnimation from '../../assets/lottie/valid.json';
+import invalidAnimation from '../../assets/lottie/invalid.json';
 
 export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
 
@@ -9,14 +12,20 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
     const { correct_answer } = props.quizz[index];
     const availableAnswers = [correct_answer, ...props.quizz[index].incorrect_answers];
     const [score, setScore] = useState(0);
+    const [questionStatus, setQuestionStatus] = useState<QuestionStatus>(QuestionStatus.Unanswered);
+
     const updateQuestion = (answer : string) => {
-        if (answer === correct_answer) {
+        const isValid = isValidQuestion(answer);
+        if (isValid) {
             setScore(score + 1);
-        }
-        setIndex(index + 1);
-        if(index === props.quizz.length - 1) {
-            alert(`${score}`);
-        }
+            setQuestionStatus(QuestionStatus.Valid);
+        }else {
+            setQuestionStatus(QuestionStatus.Invalid);
+        } 
+    };
+
+    const isValidQuestion = (answer: string) => {
+        return answer === correct_answer;
     };
 
     return (
@@ -37,6 +46,15 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
                     })
                 }
             </div>
+            <Lottie 
+                loop={false} 
+                style={{marginTop: 100, height: 150}} 
+                animationData={questionStatus === QuestionStatus.Valid ? validAnimation : questionStatus === QuestionStatus.Invalid ? invalidAnimation : null}
+                onComplete={() => {
+                    setQuestionStatus(QuestionStatus.Unanswered);
+                    setIndex(index + 1);
+                }}
+            />
         </main>
     );
 };
