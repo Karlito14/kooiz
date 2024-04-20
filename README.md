@@ -5,6 +5,8 @@ Kooiz est une application qui permet de tester ses connaissances et sa culture s
 ### Objectifs
 
 - Récupérer de la data depuis une API REST
+- Afficher un quizz dynamique selon les options choisies
+- Afficher des animations selon la réponse choisie
 
 ### Maquette
 
