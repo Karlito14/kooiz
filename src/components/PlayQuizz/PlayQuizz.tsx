@@ -5,10 +5,11 @@ import style from './style.module.scss';
 import Lottie from 'lottie-react';
 import validAnimation from '../../assets/lottie/valid.json';
 import invalidAnimation from '../../assets/lottie/invalid.json';
+import { Timer } from '../Timer/Timer.tsx';
 
 export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
     const [index, setIndex] = useState(0);
-    const [answerSelected, setAnswerSelected] = useState('');
+    const [, setAnswerSelected] = useState('');
     const { correct_answer } = props.quizz[index];
     const [availableAnswers, setAvailableAnswers] = useState<string[]>([]);
     const [score, setScore] = useState(0);
@@ -29,6 +30,7 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
             setQuestionStatus(QuestionStatus.Invalid);
         }
         setAnswerHistory([...answerHistory, isValid]);
+
     };
 
     const isValidQuestion = (answer: string) => {
@@ -65,8 +67,14 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
         );
     };
 
+    const failQuestion = () => {
+        setAnswerHistory([...answerHistory, false]);
+        updateQuestion('');
+    };
+
     return (
         <main className={style.container}>
+            {questionStatus === QuestionStatus.Unanswered && <Timer max={10} onFinish={failQuestion} />}
             {displayProgressbar()}
             <h2 className={style.container__title} dangerouslySetInnerHTML={{__html: props.quizz[index].question}}/>
             <div className={style.containerRadio}>
