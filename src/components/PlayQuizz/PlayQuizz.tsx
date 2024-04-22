@@ -13,6 +13,7 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
     const [availableAnswers, setAvailableAnswers] = useState<string[]>([]);
     const [score, setScore] = useState(0);
     const [questionStatus, setQuestionStatus] = useState<QuestionStatus>(QuestionStatus.Unanswered);
+    const [answerHistory, setAnswerHistory] = useState<boolean[]>([]);
 
     useEffect(() => {
         const mixedAnswers = [correct_answer, ...props.quizz[index].incorrect_answers].sort(() => Math.random() - 0.5);
@@ -27,6 +28,7 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
         }else {
             setQuestionStatus(QuestionStatus.Invalid);
         }
+        setAnswerHistory([...answerHistory, isValid]);
     };
 
     const isValidQuestion = (answer: string) => {
@@ -38,15 +40,34 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
             return 'black';
         } else {
             if (answer === correct_answer) {
-                return '#99f770';
+                return '#86EFAC';
             } else {
-                return '#f59c9c';
+                return '#FECACA';
             }
         }
+    };
+    
+    const displayProgressbar = () => {
+        return (
+            <div className={style.divProgressbar}>
+                {
+                    props.quizz.map((question, index) => {
+                        return (
+                            <div 
+                                key={`${index}-${question.category}`} 
+                                className={style.divProgressbar__progressBar} 
+                                style={{backgroundColor: answerHistory[index] ? '#86EFAC' : answerHistory[index] === false ? '#FECACA' : '#D1D4DB'}}
+                            />
+                        );
+                    })
+                }
+            </div>
+        );
     };
 
     return (
         <main className={style.container}>
+            {displayProgressbar()}
             <h2 className={style.container__title} dangerouslySetInnerHTML={{__html: props.quizz[index].question}}/>
             <div className={style.containerRadio}>
                 {
