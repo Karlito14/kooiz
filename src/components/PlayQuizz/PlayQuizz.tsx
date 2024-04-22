@@ -7,7 +7,7 @@ import validAnimation from '../../assets/lottie/valid.json';
 import invalidAnimation from '../../assets/lottie/invalid.json';
 import { Timer } from '../Timer/Timer.tsx';
 
-export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
+export const PlayQuizz = (props : {quizz: quizzItem[], onFinished:(score: number, history: boolean[]) => void}) => {
     const [index, setIndex] = useState(0);
     const [, setAnswerSelected] = useState('');
     const { correct_answer } = props.quizz[index];
@@ -109,8 +109,12 @@ export const PlayQuizz = (props : {quizz: quizzItem[]}) => {
                 style={{marginTop: 100, height: 150}} 
                 animationData={questionStatus === QuestionStatus.Valid ? validAnimation : questionStatus === QuestionStatus.Invalid ? invalidAnimation : null}
                 onComplete={() => {
-                    setQuestionStatus(QuestionStatus.Unanswered);
-                    setIndex(index + 1);
+                    if(index < props.quizz.length - 1) {
+                        setQuestionStatus(QuestionStatus.Unanswered);
+                        setIndex(index + 1);
+                    } else {
+                        props.onFinished(score, answerHistory);
+                    }
                 }}
             />
         </main>

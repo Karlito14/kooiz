@@ -7,6 +7,7 @@ import { StepQuestionDifficulty } from './components/StepQuestionDifficulty/Step
 import { QuizzApi } from '../api/quizz-api.ts';
 import { QuizzDifficulty, TypeQuizz, Step, FetchQuizzParams, QuizzCategory, quizzItem } from '../config/types.tsx';
 import { PlayQuizz } from './components/PlayQuizz/PlayQuizz.tsx';
+import { Score } from './components/Score/Score.tsx';
 
 export const App = () => {
     const [step, setStep] = useState<Step>(Step.StepQuestionQty);
@@ -18,6 +19,8 @@ export const App = () => {
         difficulty: QuizzDifficulty.Mixed,
         type: TypeQuizz.Multiple,
     });
+    const [score, setScore] = useState(0);
+    const [answersHistory, setAnswerHistory] = useState<boolean[]>([]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -26,6 +29,12 @@ export const App = () => {
         };
         fetchCategories();
     }, []);
+
+    const onFinished = (score: number, history:boolean[]) => {
+        setScore(score);
+        setAnswerHistory(history);
+        setStep(Step.Score);
+    };
 
     const renderStep = () => {
         switch(step) {
@@ -40,7 +49,7 @@ export const App = () => {
                     setStep(Step.StepQuestionDifficulty);
                 }} />;
             case Step.StepQuestionDifficulty :
-                return <StepQuestionDifficulty onClick={async (difficulty: QuizzDifficulty) => {
+                return <StepQuestionDifficulty onClick={ async (difficulty: QuizzDifficulty) => {
                     const params = {...quizzParams, difficulty};
                     setQuizzParams(params);
                     const questions = await QuizzApi.fetchQuestions(params);
@@ -53,9 +62,9 @@ export const App = () => {
                     }
                 }} />;
             case Step.Play :
-                return <PlayQuizz quizz={quizz} />;
+                return <PlayQuizz quizz={quizz} onFinished={onFinished} />;
             case Step.Score :
-                return '';                      
+                return <Score score={score} history={answersHistory} onClick={() => setStep(Step.StepQuestionQty)} />;                      
         }
     };
 
