@@ -10,7 +10,7 @@ Kooiz est une application qui permet de tester ses connaissances et sa culture s
 
 ### Maquette
 
-[Maquette du site](./maquette/Sans%20titre.jpg)
+![Maquette du site](./maquette/Sans%20titre.jpg "Maquette Kooiz")
 
 ### Instructions
 
