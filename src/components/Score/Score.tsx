@@ -1,4 +1,3 @@
-import { IoArrowForward } from 'react-icons/io5';
 import style from './style.module.scss';
 
 export const Score = (props: {score: number, history: boolean[], onClick: () => void}) => {
@@ -21,7 +20,7 @@ export const Score = (props: {score: number, history: boolean[], onClick: () => 
             <p className={style.container__message}>{renderMessage()}</p>
 
             <div className={style.container__divButton}>
-                <button className={style.container__divButton__button} onClick={() => props.onClick()}>Try again<IoArrowForward /></button>
+                <button className={style.container__divButton__button} onClick={() => props.onClick()}>New game</button>
             </div>
         </main>
     );

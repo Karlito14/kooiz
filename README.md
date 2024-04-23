@@ -1,4 +1,4 @@
-# Kooiz
+[Kooiz](https://kooizz.netlify.app/)
 
 Kooiz est une application qui permet de tester ses connaissances et sa culture sur de nombreux sujets
 
@@ -10,16 +10,18 @@ Kooiz est une application qui permet de tester ses connaissances et sa culture s
 
 ### Maquette
 
+[Maquette du site](./maquette/Sans%20titre.jpg)
 
 ### Instructions
 
 - Réaliser le site avec **React** et **TypeScript**
 - Un dossier par composant
 - Chaque dossier devra contenir le TSX, le CSS et le TS, si besoin, du composant en question
+- Lancer le projet avec **Vite**
 
 ### Tester le projet
 
-Pour tester le projet :
+Pour tester le projet cliquez [ici](https://kooizz.netlify.app/) ou :
 
 - Cloner le github
 - Ouvrir votre terminal et taper la commande suivante **npm i** afin d'installer les dépendances utilisées
